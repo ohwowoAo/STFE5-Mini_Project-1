@@ -1,6 +1,7 @@
 # 리액트로 만드는 mini News
 
-<strong>항상 작업전 반드시 pull을 해주세요</strong>
+<strong>항상 작업전 반드시 pull을 해주세요<br></strong>
+<strong>한글로 작성 부탁드립니다.</strong>
 
 1. 각자 포크하셔서 작업해주세요.
 2. 각자 브랜치를 만들어 각자 브랜치에서 작업해주세요.
