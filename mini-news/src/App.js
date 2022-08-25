@@ -1,7 +1,15 @@
+import NewsListPage from "./components/NewsList/NewsListPage";
+import GlobalStyle from "./styles/GlobalStyle";
 
 function App() {
   return (
-    <div>test</div>
+    <>
+      <GlobalStyle/>
+      {/* <NavBar/>
+      <SearchBar/>
+      <Clip/>
+      <NewsListPage/> */}
+    </>
   );
 }
 
