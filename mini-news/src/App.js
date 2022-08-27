@@ -9,12 +9,6 @@ function App() {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Header/>}/>
-        
-        
-        {/* <NavBar/>
-        <SearchBar/>
-        <Clip/>
-        <NewsListPage/> */}
       </Routes>
     </BrowserRouter>
   );
