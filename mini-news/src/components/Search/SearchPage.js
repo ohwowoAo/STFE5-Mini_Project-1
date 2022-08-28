@@ -7,10 +7,8 @@ import search_b from '../../img/search_b.png'
 //props를 이용하여 NewsList 밑 ClipPage에 전달해주기
 export default function SearchPage() {
   const [ hide, setHide ] =useState(0);
-  const [ inputText , setInputText ] = useState();
 
   const changeHandler = (e) => {
-    setInputText(e.target.value);
     if(e.target.value > 0){
       setHide(1)
     }else{
@@ -31,7 +29,6 @@ export default function SearchPage() {
       2. div(searchHistory) 를 생성해주는 함수
       onFocus 를 이용하여 search history가 존재 & input 에 Focus 중이면 searchHistory 노출
       1. display 를 바꿔주는 함수 
-      
       */}
       <SearchHistoryBox visibility={hide}>test11</SearchHistoryBox>
     </SearchWrap>
