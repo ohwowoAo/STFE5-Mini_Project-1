@@ -14,7 +14,10 @@ function App() {
       <Routes>
         <Route path="/" element={<NewsListPage />}/>
         <Route path="/clip"  element={<ClipPage/>}/>
-        <h1>dddd</h1>      </Routes>
+        </Routes>
+        
+        
+        
     </>
   );
 }
