@@ -11,6 +11,7 @@ export default function SearchPage() {
   const changeHandler = (e) => {
     if (e.target.value > 0) {
       // 추후 || 을 이용하여 History가 있거나 valuer 값이 1이상이면 보여주게 하면 됨
+      console.log(hide);
       setHide(1);
     } else {
       setHide(0);

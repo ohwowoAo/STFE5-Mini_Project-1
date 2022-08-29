@@ -5,7 +5,9 @@ import Header from '../Header/Header'
 import Styled,{css} from "styled-components"
 import { NewsWrap } from "../../styles/WrapStyle";
 import ClipPage from "../Clip/ClipPage";
-import API_KEY from './Token';
+import API_KEY from './Token.js';
+import bookmark_before from '../../img/bookmark_before.png'
+import bookmark_after from '../../img/bookmark_after.png'
 
 //뉴스기사 검색 받은걸 보여주는 기능 구현
 export default function NewsListPage() {
@@ -23,36 +25,98 @@ useEffect(()=>{
       const articles = await res.json()
       console.log(articles.response.docs);
       setArticles(articles.response.docs)
-      
     }catch (error){
       console.error(error);
-      
     }
   }  
   fetchArticles();
 
 }, [])    
 
+
 return (
     <>
       <SearchPage />
       <NewsWrap>
-        <ClipPage/>
-      <section>
+        <ClipPage/>      
         {articles.map((article) => {
-          const {abstract, pub_date, _id, original} = article
+          const {abstract, pub_date, _id, byline:{original}, web_url} = article
+          let sliceByline
+          if((typeof original)=== "string"){
+            sliceByline = original.substr(-(original.length-3))
+          }
           return (
-            <article key={_id}>
-              <h4>{abstract}</h4>
+            <NewsList key={_id}>
+              <NewsTitle>
+                <h3>{abstract}</h3>
+                <a href={web_url} target="_blank" rel="noreferrer"><button>DETAIL &gt;</button></a>
+              </NewsTitle>
+            <NewsInfo >
+              <p>{sliceByline}</p>
               <p>{pub_date}</p>
-              <p>{original}</p>
-            </article>
+            </NewsInfo>
+              <ClipBtn/>
+            </NewsList>
           )
           })}
-        </section>
       </NewsWrap>
     </>
   )
 } 
  
+const NewsList = Styled.div`
+  position: relative;
+  padding: 16px 16px 20px 50px;
+  background: rgb(255, 255, 255);
+  overflow: hidden;
+  margin: 0px auto 12px;
+  box-shadow: rgb(0 0 0 / 8%) 0px 2px 12px;
+  border-radius: 16px;
+`
 
+const ClipBtn = Styled.button`
+  position: absolute;
+  top: 18px;
+  left: 15px;
+  width: 20px;
+  height: 30px;
+  border: 0;
+  background: url(${bookmark_before}) no-repeat;
+  background-size: contain;
+  background-position: center;
+  transition: all 0.2s linear;
+  cursor: pointer;
+`
+
+const NewsTitle = Styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0 14px;
+  > a button{
+    width: 80px;
+    padding: 2px 0;
+    background: #f2f2f6;
+    border: 0;
+    border-radius: 20px;
+    color: #999;
+    font-family: 'Roboto', 'NanumSquareRound', sans-serif;
+    font-size: .8rem;
+    cursor: pointer;
+  }
+`
+const NewsInfo = Styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0 0;
+  border-top: 1px solid rgb(240, 240, 246);
+  > span{
+    width: 78px;
+    height: 12px;
+    overflow: hidden;
+    word-break: break-all;
+    color: rgb(118, 118, 118);
+    font-size: .8rem;
+  }
+`
