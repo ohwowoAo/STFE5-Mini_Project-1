@@ -5,16 +5,19 @@ import Header from "./components/Header/Header";
 import SearchPage from "./components/Search/SearchPage";
 import SearchHistory from "./components/Search/SearchHistory";
 import ClipPage from "./components/Clip/ClipPage";
+import { NewsWrap, WrapInner } from "./styles/WrapStyle";
 
 function App() {
   return (
     // <Route path="/" element={<Header />}/>
     <>
-      <Header/>
-      <Routes>
-        <Route path="/" element={<NewsListPage />}/>
-        <Route path="/clip"  element={<ClipPage/>}/>
-        <h1>dddd</h1>      </Routes>
+      <WrapInner>
+        <Header />
+          <Routes>
+            <Route path="/" element={<NewsListPage />}/>
+            <Route path=":clip" element={<ClipPage props={true}/>}/>
+          </Routes>
+      </WrapInner>
     </>
   );
 }
