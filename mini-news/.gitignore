@@ -12,7 +12,7 @@
 /build
 
 #API_KEY
-.env
+Token.js
 
 # misc
 .DS_Store

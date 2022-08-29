@@ -5,6 +5,7 @@ import Header from '../Header/Header'
 import Styled,{css} from "styled-components"
 import { NewsWrap } from "../../styles/WrapStyle";
 import ClipPage from "../Clip/ClipPage";
+import API_KEY from './Token';
 
 //뉴스기사 검색 받은걸 보여주는 기능 구현
 export default function NewsListPage() {
@@ -17,7 +18,7 @@ const [isLodading, setIsLodading] = useState(true) //화면에 데이터를 표�
 useEffect(()=>{  
   const fetchArticles = async () =>{
   try{
-      const res = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&api-key=API_KEY`
+      const res = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&api-key=${API_KEY}`
       )
       const articles = await res.json()
       console.log(articles.response.docs);
@@ -39,12 +40,12 @@ return (
         <ClipPage/>
       <section>
         {articles.map((article) => {
-          const {abstract, pub_date, _id, byline: {original}} = article
+          const {abstract, pub_date, _id, original} = article
           return (
             <article key={_id}>
               <h4>{abstract}</h4>
               <p>{pub_date}</p>
-              <p>byline: {original}</p>
+              <p>{original}</p>
             </article>
           )
           })}
