@@ -10,11 +10,10 @@ function App() {
   return (
     // <Route path="/" element={<Header />}/>
     <>
-      {/* <Header/> */}
+      <Header/>
       <Routes>
-        <Route path="/" element={<NewsListPage />}>
-          <Route path="/clip"  element={<ClipPage/>}/>
-        </Route>
+        <Route path="/" element={<NewsListPage />}/>
+        <Route path="/clip"  element={<ClipPage/>}/>
       </Routes>
     </>
   );

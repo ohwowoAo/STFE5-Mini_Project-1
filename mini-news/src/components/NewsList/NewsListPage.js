@@ -10,9 +10,7 @@ import Styled,{css} from "styled-components"
 export default function NewsListPage() {
   return (
     <>
-      <Header/>
       <SearchPage/>
-      <Outlet/>
       <Link to="/clip">clip페이지로</Link>
     </>
   )

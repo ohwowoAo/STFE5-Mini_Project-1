@@ -9,7 +9,7 @@ export default function SearchPage() {
   const [ hide, setHide ] =useState(0);
 
   const changeHandler = (e) => {
-    if(e.target.value > 0){
+    if(e.target.value > 0){ // 추후 || 을 이용하여 History가 있거나 valuer 값이 1이상이면 보여주게 하면 됨
       setHide(1)
     }else{
       setHide(0)
@@ -82,7 +82,6 @@ const SearchHistoryValue = styled.div`
     padding: 4px 12px;
     border: 1px solid #dedfe0;
     border-radius: 20px;
-    
 `
 
 
