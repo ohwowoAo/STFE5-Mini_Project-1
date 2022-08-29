@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import {Link} from 'react-router-dom'
 import LogoImg from "../../img/logo.png"
 import Lightbtn from "../../img/light.png"
 
@@ -7,20 +8,12 @@ import Lightbtn from "../../img/light.png"
 //단순 네비게이션바 구현 프로토타입은 팀레포 Wiki 참조
 export default function Header() {
   return (
-    <WrapInner>
       <WrapHeader>
-        <div><a href="/"><WrapLogo/></a></div>
+        <div><Link to="/"><WrapLogo/></Link></div>
         <div><WrapLightBtn/></div>
       </WrapHeader>
-    </WrapInner>
   );
 }
-
-const WrapInner = styled.div`
-  max-width: 640px;
-  min-width: 320px;
-  margin: 0 auto;
-`;
 
 const WrapHeader = styled.div`
   display: flex;
