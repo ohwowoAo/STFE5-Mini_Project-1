@@ -20,7 +20,7 @@ const [isLodading, setIsLodading] = useState(true) //화면에 데이터를 표�
 useEffect(()=>{  
   const fetchArticles = async () =>{
   try{
-      const res = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&api-key=u0IdlQAO47j59AtNetAuJjxhxci40qmJ`
+      const res = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&api-key=API_KEY`
       )
       const articles = await res.json()
       console.log(articles.response.docs);
