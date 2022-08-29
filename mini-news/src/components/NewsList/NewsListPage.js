@@ -6,11 +6,8 @@ import Styled,{css} from "styled-components"
 import { NewsWrap } from "../../styles/WrapStyle";
 import ClipPage from "../Clip/ClipPage";
 
-
-
 //뉴스기사 검색 받은걸 보여주는 기능 구현
 export default function NewsListPage() {
-
 
 const [articles, setArticles] = useState([]);
 const [term, setTerm] = useState('everything'); //모든기사
@@ -43,14 +40,11 @@ return (
       <section>
         {articles.map((article) => {
           const {abstract, pub_date, _id, byline: {original}} = article
-
           return (
             <article key={_id}>
               <h4>{abstract}</h4>
               <p>{pub_date}</p>
               <p>byline: {original}</p>
-
-
             </article>
           )
           })}
