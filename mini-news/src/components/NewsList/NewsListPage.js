@@ -3,11 +3,14 @@ import { Link, Outlet } from 'react-router-dom';
 import SearchPage from '../Search/SearchPage'
 import Header from '../Header/Header'
 import Styled,{css} from "styled-components"
+import { NewsWrap } from "../../styles/WrapStyle";
+import ClipPage from "../Clip/ClipPage";
 
 
 
 //뉴스기사 검색 받은걸 보여주는 기능 구현
 export default function NewsListPage() {
+
 
 const [articles, setArticles] = useState([]);
 const [term, setTerm] = useState('everything'); //모든기사
@@ -17,7 +20,7 @@ const [isLodading, setIsLodading] = useState(true) //화면에 데이터를 표�
 useEffect(()=>{  
   const fetchArticles = async () =>{
   try{
-      const res = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&api-key=API_KEY`
+      const res = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&api-key=u0IdlQAO47j59AtNetAuJjxhxci40qmJ`
       )
       const articles = await res.json()
       console.log(articles.response.docs);
@@ -34,8 +37,9 @@ useEffect(()=>{
 
 return (
     <>
-      <SearchPage/>
-      <Link to="/clip">clip페이지로</Link>
+      <SearchPage />
+      <NewsWrap>
+        <ClipPage/>
       <section>
         {articles.map((article) => {
           const {abstract, pub_date, _id, byline: {original}} = article
@@ -49,8 +53,11 @@ return (
 
             </article>
           )
-        })}
-      </section>
+          })}
+        </section>
+      </NewsWrap>
     </>
   )
-}
+} 
+ 
+

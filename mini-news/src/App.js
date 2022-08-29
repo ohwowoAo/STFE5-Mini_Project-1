@@ -5,19 +5,27 @@ import Header from "./components/Header/Header";
 import SearchPage from "./components/Search/SearchPage";
 import SearchHistory from "./components/Search/SearchHistory";
 import ClipPage from "./components/Clip/ClipPage";
+import { NewsWrap, WrapInner } from "./styles/WrapStyle";
 
 function App() {
   return (
     // <Route path="/" element={<Header />}/>
+    // 은정님 git test
+    // 은정님이 작업하시는 라인에 푸쉬
     <>
-      <Header/>
-      <Routes>
-        <Route path="/" element={<NewsListPage />}/>
-        <Route path="/clip"  element={<ClipPage/>}/>
-        </Routes>
+
         
         
         
+
+      <WrapInner>
+        <Header />
+          <Routes>
+            <Route path="/" element={<NewsListPage />}/>
+            <Route path=":clip" element={<ClipPage props={true}/>}/>
+          </Routes>
+      </WrapInner>
+
     </>
   );
 }
