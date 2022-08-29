@@ -10,6 +10,7 @@ import { NewsWrap, WrapInner } from "./styles/WrapStyle";
 function App() {
   return (
     // <Route path="/" element={<Header />}/>
+    // 은정님 git test
     <>
       <WrapInner>
         <Header />
