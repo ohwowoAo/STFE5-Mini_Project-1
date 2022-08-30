@@ -4,6 +4,7 @@ import styled,{css} from "styled-components"
 import NewsListPage from '../NewsList/NewsListPage'
 import sort_uncheck from "../../img/sort_uncheck.png";
 import sort_check from "../../img/sort_check.png";
+import ClipList from './ClipList';
 
 
 //Clip된 기사들 처리 및 Unclip 처리
