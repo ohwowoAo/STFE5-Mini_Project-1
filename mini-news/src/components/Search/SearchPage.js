@@ -11,29 +11,32 @@ export default function SearchPage() {
   const [hide, setHide] = useState(0);
   const [text, setText] = useState([]);
   const SetHistoryValue = () => {
-    return text.map((item)=>{
-      if(text.length < 6){
+    return text.map((item) => {
+      if (text.length < 6) {
         return <SearchHistoryValue>{item}</SearchHistoryValue>;
-      }else{
-        text.pop()
+      } else {
+        text.pop();
+        setText((text)=>[...text]);
         console.log(text);
+        return <SearchHistoryValue>{item}</SearchHistoryValue>;
       }
-    })
+    });
   };
   useEffect(() => {
     console.log(text);
-    if(text){
+    if (text) {
       console.log("use effect : ", text);
     }
   }, [text]);
   let time;
   const ChangeHandler = (e) => {
     clearTimeout(time);
-    time = setTimeout(()=>{
-      if(e.target.value){
-        setText(text.concat(e.target.value));
+    time = setTimeout(() => {
+      if (e.target.value) {
+        text.unshift(e.target.value);
+        setText((text)=>[...text]);
       }
-    },500)
+    }, 500);
     if (e.target.value !== "") {
       // 추후 || 을 이용하여 History가 있거나 value 값이 1이상이면 보여주게 하면 됨
       setHide(1);
