@@ -17,6 +17,7 @@ export default function NewsListPage() {
 
   //loading 즉시 사용효과 설정, 양식을 검색하기위해 용어 설정
   useEffect(() => {
+    console.log("useEffect 실행");
     const fetchArticles = async () => {
       try {
         const res = await fetch(
@@ -30,11 +31,11 @@ export default function NewsListPage() {
       }
     };
     fetchArticles();
-  }, []);
+  }, [term]);
 
   return (
     <>
-      <SearchPage />
+      <SearchPage setTerm={setTerm} callArticle={useEffect}/>
       <NewsWrap>
         <ClipPage />
         {articles.map((article) => {
