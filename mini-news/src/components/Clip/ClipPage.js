@@ -43,6 +43,7 @@ const ClipBtn = styled.button`
   background-size: 20px;
   background-image: url(${sort_uncheck});
   background-color: transparent;
+  font-family: 'Roboto', 'NanumSquareRound', sans-serif;
   cursor: pointer;
   transition: all 0.2s linear;
   ${(props) =>
