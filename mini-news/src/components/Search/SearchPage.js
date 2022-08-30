@@ -44,13 +44,22 @@ export default function SearchPage() {
       setHide(0);
     }
   };
-
+  const onFocus = () =>{
+    console.log("온포커스");
+    if(text.length !== 0){
+      setHide(1);
+    }else{
+      setHide(0);
+    }
+  }
   return (
     <>
       <SearchBox>
         <SearchInputBox
           placeholder="검색어를 입력하세요"
           onChange={ChangeHandler}
+          onFocus={onFocus}
+          onBlur={()=>setHide(0)}
         />
         <SearchBoxBtn />
       </SearchBox>
