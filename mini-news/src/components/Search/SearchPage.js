@@ -1,17 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchHistory from "./SearchHistory";
 import styled from "styled-components";
 import search_b from "../../img/search_b.png";
 
 //검색 기능 구현 해주시면 될것같습니다. API 접근하여 기사를 받아온후
 //props를 이용하여 NewsList 밑 ClipPage에 전달해주기
+let arr = [];
+
 export default function SearchPage() {
   const [hide, setHide] = useState(0);
-
-  const changeHandler = (e) => {
-    if (e.target.value > 0) {
-      // 추후 || 을 이용하여 History가 있거나 valuer 값이 1이상이면 보여주게 하면 됨
-      console.log(hide);
+  const [text, setText] = useState([]);
+  const SetHistoryValue = () => {
+    return text.map((item) => {
+      if (text.length < 6) {
+        return <SearchHistoryValue>{item}</SearchHistoryValue>;
+      } else {
+        text.pop();
+        setText((text)=>[...text]);
+        console.log(text);
+        return <SearchHistoryValue>{item}</SearchHistoryValue>;
+      }
+    });
+  };
+  useEffect(() => {
+    console.log(text);
+    if (text) {
+      console.log("use effect : ", text);
+    }
+  }, [text]);
+  let time;
+  const ChangeHandler = (e) => {
+    clearTimeout(time);
+    time = setTimeout(() => {
+      if (e.target.value) {
+        text.unshift(e.target.value);
+        setText((text)=>[...text]);
+      }
+    }, 500);
+    if (e.target.value !== "") {
+      // 추후 || 을 이용하여 History가 있거나 value 값이 1이상이면 보여주게 하면 됨
       setHide(1);
     } else {
       setHide(0);
@@ -23,7 +50,7 @@ export default function SearchPage() {
       <SearchBox>
         <SearchInputBox
           placeholder="검색어를 입력하세요"
-          onChange={changeHandler}
+          onChange={ChangeHandler}
         />
         <SearchBoxBtn />
       </SearchBox>
@@ -34,7 +61,9 @@ export default function SearchPage() {
       onFocus 를 이용하여 search history가 존재 & input 에 Focus 중이면 searchHistory 노출
       1. display 를 바꿔주는 함수 
       */}
-      <SearchHistoryBox visibility={hide}>test11</SearchHistoryBox>
+      <SearchHistoryBox visibility={hide}>
+        <>{SetHistoryValue()}</>
+      </SearchHistoryBox>
     </>
   );
 }
