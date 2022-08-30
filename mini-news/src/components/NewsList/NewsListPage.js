@@ -17,7 +17,7 @@ export default function NewsListPage() {
 
   //loading 즉시 사용효과 설정, 양식을 검색하기위해 용어 설정
   useEffect(() => {
-    console.log("useEffect 실행");
+    // console.log("useEffect 실행");
     const fetchArticles = async () => {
       try {
         const res = await fetch(
@@ -58,7 +58,7 @@ export default function NewsListPage() {
               </NewsTitle>
               <NewsInfo>
                 <p>{sliceByline}</p>
-                <p>{pub_date}</p>
+                <span>{pub_date}</span>
               </NewsInfo>
               <ClipBtn />
             </NewsList>
@@ -81,7 +81,7 @@ const NewsList = Styled.div`
 
 const ClipBtn = Styled.button`
   position: absolute;
-  top: 42px;
+  top: 23px;
   left: 15px;
   width: 20px;
   height: 30px;
@@ -98,6 +98,13 @@ const NewsTitle = Styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 4px 0 14px;
+  > h3{
+    font-size: 1rem;
+    font-weight: normal;
+  }
+  > a{
+    margin: 0 0 0 5px;
+  }
   > a button{
     width: 80px;
     padding: 2px 0;
@@ -106,7 +113,7 @@ const NewsTitle = Styled.div`
     border-radius: 20px;
     color: #999;
     font-family: 'Roboto', 'NanumSquareRound', sans-serif;
-    font-size: .8rem;
+    font-size: .75rem;
     cursor: pointer;
   }
 `;
@@ -116,12 +123,14 @@ const NewsInfo = Styled.div`
   align-items: center;
   padding: 14px 0 0;
   border-top: 1px solid rgb(240, 240, 246);
+  > p , span{
+    color: rgb(118, 118, 118);
+    font-size: .8rem;
+  }
   > span{
     width: 78px;
     height: 12px;
     overflow: hidden;
     word-break: break-all;
-    color: rgb(118, 118, 118);
-    font-size: .8rem;
   }
 `;
