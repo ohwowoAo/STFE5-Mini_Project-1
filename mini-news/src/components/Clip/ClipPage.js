@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { Link, useNavigate,  } from "react-router-dom";
+import { Link, } from "react-router-dom";
 import styled,{css} from "styled-components"
 import NewsListPage from '../NewsList/NewsListPage'
 import sort_uncheck from "../../img/sort_uncheck.png";
@@ -9,16 +9,18 @@ import ClipList from './ClipList';
 
 //Clip된 기사들 처리 및 Unclip 처리
 export default function ClipPage({props}) {
-  const navigate = useNavigate();
-  const goBack = () =>{
+  const makeLink = (props) =>{
     if(props){
-      navigate('/');
+      return <StyledLink checked={props} to="/">CLIP</StyledLink>
+    }else{
+      return <StyledLink checked={props} to="/clip">CLIP</StyledLink>
     }
+
   }
   return (
     <>
       <Clip>
-        <ClipBtn onClick={goBack} checked={props}><StyledLink to="/clip">CLIP</StyledLink></ClipBtn>
+        {makeLink(props)}
       </Clip>
     </>
   )
@@ -27,12 +29,6 @@ export default function ClipPage({props}) {
 const StyledLink = styled(Link)`
   color: inherit;
   text-decoration: none;
-`;
-
-const Clip = styled.div`
-  padding: 0 0 18px;
-`;
-const ClipBtn = styled.button`
   display: inline-block;
   padding: 0 0 0 20px;
   font-size: 0.95rem;
@@ -58,4 +54,8 @@ const ClipBtn = styled.button`
   &:active {
     transform: scale(0.8);
   }
+`;
+
+const Clip = styled.div`
+  padding: 0 0 18px;
 `;
