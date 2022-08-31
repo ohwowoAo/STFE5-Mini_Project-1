@@ -12,50 +12,52 @@ import bookmark_after from "../../img/bookmark_after.png";
 //뉴스기사 검색 받은걸 보여주는 기능 구현
 export default function NewsListPage() {
   const [articles, setArticles] = useState([]);
-  const [term, setTerm] = useState("everything"); //모든기사
+  const [term, setTerm] = useState(); //모든기사
   const [isLodading, setIsLodading] = useState(true); //화면에 데이터를 표시하지않을떄마다 로딩을 표시(기본적사실)  api에서 데이터를 가져오면 로딩애니매시연을 제거
   const [clipBtn, setClipBtn] = useState(false);
-  
+
   //loading 즉시 사용효과 설정, 양식을 검색하기위해 용어 설정
   useEffect(() => {
     // console.log("useEffect 실행");
     const fetchArticles = async () => {
-      try {
+      if (term !== undefined) {
         const res = await fetch(
           `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&api-key=${API_KEY}`
         );
         const articles = await res.json();
         console.log(articles.response.docs);
         setArticles(articles.response.docs);
-      } catch (error) {
-        console.error(error);
       }
     };
     fetchArticles();
   }, [term]);
 
-  const clipHandle = (e) =>{
+  const clipHandle = (e) => {
     const newClipItem = {
-      id:e.target.id,
-    }
+      id: e.target.id,
+    };
     // console.log(newClipItem.id)
-    articles.map(article => article._id === newClipItem.id ? console.log(article) : null)
-  }
+    articles.map((article) =>
+      article._id === newClipItem.id ? console.log(article) : null
+    );
+  };
   return (
     <>
-      <SearchPage setTerm={setTerm} callArticle={useEffect}/>
+      <SearchPage setTerm={setTerm} callArticle={useEffect} />
       <NewsWrap>
         <ClipPage />
         {articles.map((article) => {
           const {
-            headline:{main},
+            headline: { main },
             pub_date,
             _id,
             byline: { original },
             web_url,
           } = article;
           let sliceByline;
-          if (typeof original === "string") {sliceByline = original.substr(-(original.length - 3));}
+          if (typeof original === "string") {
+            sliceByline = original.substr(-(original.length - 3));
+          }
           return (
             <NewsList key={_id}>
               <NewsTitle>
@@ -68,7 +70,11 @@ export default function NewsListPage() {
                 <p>{sliceByline}</p>
                 <span>{pub_date}</span>
               </NewsInfo>
-              <ClipBtn className={clipBtn ? 'clipon' : null} onClick={clipHandle} id={_id} />
+              <ClipBtn
+                className={clipBtn ? "clipon" : null}
+                onClick={clipHandle}
+                id={_id}
+              />
             </NewsList>
           );
         })}
