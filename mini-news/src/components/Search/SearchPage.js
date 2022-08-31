@@ -24,18 +24,14 @@ export default function SearchPage({setTerm}) {
     });
   };
   const SetLocalStorage = (item)=>{
-    console.log("로컬스토리지");
     let localStorageArr = localStorage.getItem('searchHistory')
     localStorageArr===null? localStorageArr=[] : localStorageArr= JSON.parse(localStorageArr);
-    if(localStorageArr.length < 5){
+    if(localStorageArr.length <= 5){
       localStorageArr.unshift(item);
       localStorageArr= new Set(localStorageArr)
       localStorageArr = [...localStorageArr]
       localStorage.setItem('searchHistory', JSON.stringify(localStorageArr))
-      console.log(localStorageArr.length);
-      console.log("로컬스토리지 끝");
     }else{
-      console.log("else문");
       localStorageArr.pop();
       localStorageArr.unshift(item);
       localStorageArr= new Set(localStorageArr)
@@ -56,14 +52,14 @@ export default function SearchPage({setTerm}) {
     }, 500);
     (e.target.value !== "" ? setHide(1) : setHide(0)) //최근검색어 Hide&UnHide 
   };
-  const onFocus = () =>{
-    console.log("실행됨");
-    console.log(localStorage.getItem('searchHistory'))
+  useEffect(()=>{
     if(localStorage.getItem('searchHistory')!==null){
       setText(JSON.parse(localStorage.getItem('searchHistory')))
     }
+  },[])
+  const onFocus = () =>{
     (text.length !== 0 ? setHide(1) : setHide(0))
-  }  //input창에 onFocus일때 최근검색어 Hide&UnHide
+  }  
 
   return (
     <>
@@ -76,7 +72,7 @@ export default function SearchPage({setTerm}) {
         />
         <SearchBoxBtn />
       </SearchBox>
-      <SearchHistoryBox visibility={hide}>
+      <SearchHistoryBox visibility={hide} >
         {SetHistoryValue()}
       </SearchHistoryBox>
     </>
