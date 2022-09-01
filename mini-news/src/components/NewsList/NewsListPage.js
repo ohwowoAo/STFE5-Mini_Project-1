@@ -5,10 +5,10 @@ import Header from "../Header/Header";
 import Styled, { css } from "styled-components";
 import { NewsWrap } from "../../styles/WrapStyle";
 import ClipPage from "../Clip/ClipPage";
-import API_KEY from "./Token.js";
 import bookmark_before from "../../img/bookmark_before.png";
 import bookmark_after from "../../img/bookmark_after.png";
 import { useInView } from "react-intersection-observer";
+
 //뉴스기사 검색 받은걸 보여주는 기능 구현
 
 export default function NewsListPage() {
@@ -18,6 +18,7 @@ export default function NewsListPage() {
   const [ref, inView] = useInView(false);
   const [btnActive, setBtnActive] = useState(null);
   const [clickNum, setClickNum] = useState(0);
+  const API_KEY = process.env.REACT_APP_ARTICLES_API_KEY
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -28,6 +29,7 @@ export default function NewsListPage() {
         const articlesResponse = await res.json();
         articles.concat(...articlesResponse.response.docs);
         setArticles(articles.concat(...articlesResponse.response.docs));
+        
       }
     };
     fetchArticles();
