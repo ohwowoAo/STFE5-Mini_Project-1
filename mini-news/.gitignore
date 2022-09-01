@@ -12,7 +12,6 @@
 /build
 
 #API_KEY
-Token.js
 .env
 
 # misc
