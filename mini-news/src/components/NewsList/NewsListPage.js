@@ -8,32 +8,33 @@ import ClipPage from "../Clip/ClipPage";
 import API_KEY from "./Token.js";
 import bookmark_before from "../../img/bookmark_before.png";
 import bookmark_after from "../../img/bookmark_after.png";
-
+import { useInView } from "react-intersection-observer";
 //뉴스기사 검색 받은걸 보여주는 기능 구현
+
 export default function NewsListPage() {
   const [articles, setArticles] = useState([]);
-  const [term, setTerm] = useState("everything"); //모든기사
+  const [term, setTerm] = useState(); //모든기사
+  const [pageNo, setPageNo] = useState(0);
   const [isLodading, setIsLodading] = useState(true); //화면에 데이터를 표시하지않을떄마다 로딩을 표시(기본적사실)  api에서 데이터를 가져오면 로딩애니매시연을 제거
   let [btnActive, setBtnActive] = useState(null);
   let [clickNum, setClickNum] = useState(0);
-
+  const [clipBtn, setClipBtn] = useState(false);
+  const [ref, inView] = useInView(false);
   //loading 즉시 사용효과 설정, 양식을 검색하기위해 용어 설정
+
   useEffect(() => {
-    // console.log("useEffect 실행");
     const fetchArticles = async () => {
-      try {
+      if (term !== undefined) {
         const res = await fetch(
-          `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&api-key=${API_KEY}`
+          `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&page=${pageNo}&api-key=${API_KEY}`
         );
-        const articles = await res.json();
-        console.log(articles.response.docs);
-        setArticles(articles.response.docs);
-      } catch (error) {
-        console.error(error);
+        const articlesResponse = await res.json();
+        articles.concat(...articlesResponse.response.docs);
+        setArticles(articles.concat(...articlesResponse.response.docs));
       }
     };
     fetchArticles();
-  }, [term]);
+  }, [term,pageNo]);
 
   const toggleActive = (e) => {
     setBtnActive(e.target.id) 
@@ -46,22 +47,29 @@ useEffect(() => {
       current.classList.toggle('clipon');
     }
   }, [clickNum]);
-
+  useEffect(() => {
+    if(articles.length !== 0){
+      setPageNo(prev => prev+1);
+    }
+    console.log(inView)
+  }, [inView]);
   return (
     <>
-      <SearchPage setTerm={setTerm} callArticle={useEffect}/>
+      <SearchPage setTerm={setTerm} />
       <NewsWrap>
         <ClipPage />
         {articles.map((article) => {
           const {
-            headline:{main},
+            headline: { main },
             pub_date,
             _id,
             byline: { original },
             web_url,
           } = article;
           let sliceByline;
-          if (typeof original === "string") {sliceByline = original.substr(-(original.length - 3));}
+          if (typeof original === "string") {
+            sliceByline = original.substr(-(original.length - 3));
+          }
           return (
             <NewsList key={_id}>
               <NewsTitle>
@@ -75,6 +83,7 @@ useEffect(() => {
                 <span>{pub_date}</span>
               </NewsInfo>
               <ClipBtn onClick={toggleActive} id={_id} />
+              <div ref={ref}></div>
             </NewsList>
           );
         })}
