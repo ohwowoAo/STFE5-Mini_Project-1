@@ -4,11 +4,11 @@ import styled,{css} from "styled-components"
 import NewsListPage from '../NewsList/NewsListPage'
 import sort_uncheck from "../../img/sort_uncheck.png";
 import sort_check from "../../img/sort_check.png";
-import ClipList from './ClipList';
+
 
 
 //Clip된 기사들 처리 및 Unclip 처리
-export default function ClipPage({props}) {
+export default function ClipPage({props, clipdata}) {
   const makeLink = (props) =>{
     if(props){
       return <StyledLink checked={props} to="/">CLIP</StyledLink>
@@ -17,11 +17,33 @@ export default function ClipPage({props}) {
     }
 
   }
+
+  const cilpEdit = (item) =>{
+
+    const {_id, web_url, headline:{main}, pub_date, byline:{original}} = item
+     
+    const newClipdata = {
+     title:main,
+     date:pub_date,
+     url:web_url,
+     byline:original,
+     id:_id
+    }
+ 
+ 
+    let localStorageArr = localStorage.getItem('clipHistory')
+     localStorageArr===null? localStorageArr=[] : localStorageArr= JSON.parse(localStorageArr); 
+     localStorageArr.push(newClipdata);
+     localStorage.setItem('clipHistory', JSON.stringify(localStorageArr))
+    
+   }
+
   return (
     <>
       <Clip>
         {makeLink(props)}
       </Clip>
+      {clipdata && cilpEdit(clipdata)}
     </>
   )
 }
