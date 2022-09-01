@@ -16,8 +16,6 @@ export default function NewsListPage() {
   const [term, setTerm] = useState(); //모든기사
   const [pageNo, setPageNo] = useState(0);
   const [isLodading, setIsLodading] = useState(true); //화면에 데이터를 표시하지않을떄마다 로딩을 표시(기본적사실)  api에서 데이터를 가져오면 로딩애니매시연을 제거
-  let [btnActive, setBtnActive] = useState(null);
-  let [clickNum, setClickNum] = useState(0);
   const [clipBtn, setClipBtn] = useState(false);
   const [ref, inView] = useInView(false);
   //loading 즉시 사용효과 설정, 양식을 검색하기위해 용어 설정
@@ -36,23 +34,22 @@ export default function NewsListPage() {
     fetchArticles();
   }, [term,pageNo]);
 
-  const toggleActive = (e) => {
-    setBtnActive(e.target.id) 
-    setClickNum(prev => prev +1)
-  };
-
-useEffect(() => {
-    if(btnActive !== null){
-      let current = document.getElementById(btnActive);
-      current.classList.toggle('clipon');
-    }
-  }, [clickNum]);
   useEffect(() => {
     if(articles.length !== 0){
       setPageNo(prev => prev+1);
     }
     console.log(inView)
   }, [inView]);
+
+  const clipHandle = (e) => {
+    const newClipItem = {
+      id: e.target.id,
+    };
+    // console.log(newClipItem.id)
+    articles.map((article) =>
+      article._id === newClipItem.id ? console.log(article) : null
+    );
+  };
   return (
     <>
       <SearchPage setTerm={setTerm} />
@@ -82,7 +79,11 @@ useEffect(() => {
                 <p>{sliceByline}</p>
                 <span>{pub_date}</span>
               </NewsInfo>
-              <ClipBtn onClick={toggleActive} id={_id} />
+              <ClipBtn
+                className={clipBtn ? "clipon" : null}
+                onClick={clipHandle}
+                id={_id}
+              />
               <div ref={ref}></div>
             </NewsList>
           );
@@ -114,11 +115,6 @@ const ClipBtn = Styled.button`
   background-position: center;
   transition: all 0.2s linear;
   cursor: pointer;
-  &.clipon {
-    background: url(${bookmark_after}) no-repeat;
-    background-size: contain;
-    background-position: center;
-  }
 `;
 
 const NewsTitle = Styled.div`
