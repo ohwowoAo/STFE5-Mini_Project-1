@@ -14,8 +14,9 @@ export default function NewsListPage() {
   const [articles, setArticles] = useState([]);
   const [term, setTerm] = useState("everything"); //모든기사
   const [isLodading, setIsLodading] = useState(true); //화면에 데이터를 표시하지않을떄마다 로딩을 표시(기본적사실)  api에서 데이터를 가져오면 로딩애니매시연을 제거
-  const [clipBtn, setClipBtn] = useState(false);
-  
+  let [btnActive, setBtnActive] = useState(null);
+  let [clickNum, setClickNum] = useState(0);
+
   //loading 즉시 사용효과 설정, 양식을 검색하기위해 용어 설정
   useEffect(() => {
     // console.log("useEffect 실행");
@@ -34,13 +35,18 @@ export default function NewsListPage() {
     fetchArticles();
   }, [term]);
 
-  const clipHandle = (e) =>{
-    const newClipItem = {
-      id:e.target.id,
+  const toggleActive = (e) => {
+    setBtnActive(e.target.id) 
+    setClickNum(prev => prev +1)
+  };
+
+useEffect(() => {
+    if(btnActive !== null){
+      let current = document.getElementById(btnActive);
+      current.classList.toggle('clipon');
     }
-    // console.log(newClipItem.id)
-    articles.map(article => article._id === newClipItem.id ? console.log(article) : null)
-  }
+  }, [clickNum]);
+
   return (
     <>
       <SearchPage setTerm={setTerm} callArticle={useEffect}/>
@@ -68,7 +74,7 @@ export default function NewsListPage() {
                 <p>{sliceByline}</p>
                 <span>{pub_date}</span>
               </NewsInfo>
-              <ClipBtn className={clipBtn ? 'clipon' : null} onClick={clipHandle} id={_id} />
+              <ClipBtn onClick={toggleActive} id={_id} />
             </NewsList>
           );
         })}
@@ -99,6 +105,11 @@ const ClipBtn = Styled.button`
   background-position: center;
   transition: all 0.2s linear;
   cursor: pointer;
+  &.clipon {
+    background: url(${bookmark_after}) no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
 `;
 
 const NewsTitle = Styled.div`
