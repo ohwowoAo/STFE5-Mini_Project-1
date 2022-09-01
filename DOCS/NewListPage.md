@@ -18,9 +18,31 @@
 
 <BR><BR>
 
-# API_KEY값
+# 📘API_KEY값 (수정됨 2022-09-01)
 > ```.gitignore```에서 #API_KEY가 있습니다.
 
-> ```NewList => Token.js```에서 자신의 API_KEY 설정 필요
+<BR><BR>
+
+## 🤭.env 방법
+
+<BR>
+
+**1. src폴더밑에 .env 파일 생성**
+<BR><BR>
+![](https://velog.velcdn.com/images/nick010397/post/a88f747a-e907-42d4-bd24-7e11287ad368/image.png)
+
+
+
+<BR><BR>
+
+***2 .env에 작성해주세요***
+>REACT_APP_ARTICLES_API_KEY='yourkey'
+
+<BR><BR>
+
+-끝-
+>  ``` NewsListPage.js``` => const API_KEY = process.env.REACT_APP_ARTICLES_API_KEY
 
 >  ``` NewsListPage.js``` => ${API_KEY} 적용된다.
+
+
