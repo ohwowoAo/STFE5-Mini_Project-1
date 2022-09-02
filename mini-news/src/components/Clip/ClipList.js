@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ClipPage from './ClipPage'
 import Styled, { css } from "styled-components";
 import bookmark_before from "../../img/bookmark_before.png";
@@ -39,7 +39,7 @@ export default function ClipList() {
                   <p>{sliceByline}</p>
                   <span>{date}</span>
                 </NewsInfo>
-                <ClipBtn id={id} />
+                <ClipBtn className='clipon' id={id} />
               </NewsList>
             )}
           )}

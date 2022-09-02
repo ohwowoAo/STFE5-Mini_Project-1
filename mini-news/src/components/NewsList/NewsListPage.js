@@ -20,6 +20,11 @@ export default function NewsListPage() {
   const [clickNum, setClickNum] = useState(0);
   const API_KEY = process.env.REACT_APP_ARTICLES_API_KEY
 
+  const value = window.localStorage.getItem('clipHistory')
+  let ParsingClip = JSON.parse(value)
+
+  // console.log(ParsingClip[0].id)
+
   useEffect(() => {
     const fetchArticles = async () => {
       if (term !== undefined) {
@@ -55,11 +60,23 @@ export default function NewsListPage() {
 
   };
 
-useEffect(() => {
+  useEffect(() => {
     if(btnActive !== null){
       let current = document.getElementById(btnActive);
       current.classList.toggle('clipon');
-    }})
+    }
+  })
+
+  useEffect(() => {
+    if(ParsingClip !== null && articles.length !== 0 ){
+      let clipOne = ParsingClip.map(clipId => clipId.id);
+      console.log(articles);
+      let clipButtonList = clipOne.map(clipOneID => document.getElementById(clipOneID));
+      clipButtonList.map(mapid => mapid.classList.add('clipon'))
+
+    }
+
+})
 
   return (
     <>
