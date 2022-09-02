@@ -8,7 +8,7 @@ import ClipPage from "../Clip/ClipPage";
 import bookmark_before from "../../img/bookmark_before.png";
 import bookmark_after from "../../img/bookmark_after.png";
 import { useInView } from "react-intersection-observer";
-
+// import API_KEY from "./Token";
 //뉴스기사 검색 받은걸 보여주는 기능 구현
 
 export default function NewsListPage() {
@@ -42,9 +42,17 @@ export default function NewsListPage() {
     console.log(inView)
   }, [inView]);
 
+  const [clipdata,setClipdata] = useState()
+  
   const toggleActive = (e) => {
     setBtnActive(e.target.id) 
     setClickNum(prev => prev +1)
+
+    articles.map((article) =>
+      article._id === e.target.id ? setClipdata(article) : null
+
+    );
+
   };
 
 useEffect(() => {
@@ -57,7 +65,7 @@ useEffect(() => {
     <>
       <SearchPage setTerm={setTerm} />
       <NewsWrap>
-        <ClipPage />
+        <ClipPage clipdata={clipdata}/>
         {articles.map((article) => {
           const {
             headline: { main },
