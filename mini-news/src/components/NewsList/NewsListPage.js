@@ -18,12 +18,9 @@ export default function NewsListPage() {
   const [ref, inView] = useInView(false);
   const [btnActive, setBtnActive] = useState(null);
   const [clickNum, setClickNum] = useState(0);
-  const API_KEY = process.env.REACT_APP_ARTICLES_API_KEY
-
-  const value = window.localStorage.getItem('clipHistory')
-  let ParsingClip = JSON.parse(value)
-
-  // console.log(ParsingClip[0].id)
+  const API_KEY = process.env.REACT_APP_ARTICLES_API_KEY;
+  const value = window.localStorage.getItem('clipHistory');
+  let ParsingClip = JSON.parse(value);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -70,7 +67,6 @@ export default function NewsListPage() {
   useEffect(() => {
     if(ParsingClip !== null && articles.length !== 0 ){
       let clipOne = ParsingClip.map(clipId => clipId.id);
-      console.log(articles);
       let clipButtonList = clipOne.map(clipOneID => document.getElementById(clipOneID));
       clipButtonList.map(mapid => mapid.classList.add('clipon'))
 
