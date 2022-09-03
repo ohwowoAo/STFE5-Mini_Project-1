@@ -12,8 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addId, removeId } from "../../store";
 // import API_KEY from "./Token";
 //뉴스기사 검색 받은걸 보여주는 기능 구현
-// import { persistReducer } from "redux-persist";
-// import storage from "redux-persist/lib/storage";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 export default function NewsListPage() {
   const [articles, setArticles] = useState([]);
@@ -26,12 +26,11 @@ export default function NewsListPage() {
   const value = window.localStorage.getItem('clipHistory');
   // let ParsingClip = JSON.parse(value);
 
-  let searchValue = useSelector((state) => state.searchValue )
 
-  // console.log(term)
+//   console.log(term)
 //   useEffect(() => {
 //     const fetchArticles = async () => {
-//       if (searchValue !== undefined) {
+//       if (term !== undefined) {
 //         try {
 //           const res = await fetch(
 //             `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&page=${pageNo}&api-key=${API_KEY}`
@@ -45,12 +44,10 @@ export default function NewsListPage() {
 //       }
 //     };
 //     fetchArticles()
-//     console.log(searchValue.length)
-// },[searchValue])
-
+// },[])
   useEffect(() => {
     const fetchArticles = async () => {
-      // if (searchValue.length !== 0) {
+      if (term !== undefined) {
         const res = await fetch(
           `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&page=${pageNo}&api-key=${API_KEY}`
         );
@@ -59,9 +56,9 @@ export default function NewsListPage() {
         setArticles(articles.concat(...articlesResponse.response.docs));
         
       }
-    // };
+    };
     fetchArticles();
-  }, [pageNo]);
+  }, [term,pageNo]);
 
   useEffect(() => {
     if(articles.length !== 0){
@@ -110,7 +107,7 @@ export default function NewsListPage() {
 
   return (
     <>
-      {/* <SearchPage setTerm={setTerm} setArticles={setArticles} /> */}
+      <SearchPage setTerm={setTerm} setArticles={setArticles} />
       <NewsWrap>
         <ClipPage clipdata={clipdata}/>
         {articles.map((article) => {

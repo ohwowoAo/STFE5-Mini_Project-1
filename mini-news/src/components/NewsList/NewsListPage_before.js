@@ -8,12 +8,8 @@ import ClipPage from "../Clip/ClipPage";
 import bookmark_before from "../../img/bookmark_before.png";
 import bookmark_after from "../../img/bookmark_after.png";
 import { useInView } from "react-intersection-observer";
-import { useDispatch, useSelector } from "react-redux";
-import { addId, removeId } from "../../store";
 // import API_KEY from "./Token";
 //뉴스기사 검색 받은걸 보여주는 기능 구현
-// import { persistReducer } from "redux-persist";
-// import storage from "redux-persist/lib/storage";
 
 export default function NewsListPage() {
   const [articles, setArticles] = useState([]);
@@ -24,33 +20,11 @@ export default function NewsListPage() {
   const [clickNum, setClickNum] = useState(0);
   const API_KEY = process.env.REACT_APP_ARTICLES_API_KEY;
   const value = window.localStorage.getItem('clipHistory');
-  // let ParsingClip = JSON.parse(value);
-
-  let searchValue = useSelector((state) => state.searchValue )
-
-  // console.log(term)
-//   useEffect(() => {
-//     const fetchArticles = async () => {
-//       if (searchValue !== undefined) {
-//         try {
-//           const res = await fetch(
-//             `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&page=${pageNo}&api-key=${API_KEY}`
-//           )
-//           const articlesResponse = await res.json()
-//           setArticles(articlesResponse.response.docs)
-//           console.log(articlesResponse.response.docs)
-//         }catch (error){
-//           console.error(error)
-//         }
-//       }
-//     };
-//     fetchArticles()
-//     console.log(searchValue.length)
-// },[searchValue])
+  let ParsingClip = JSON.parse(value);
 
   useEffect(() => {
     const fetchArticles = async () => {
-      // if (searchValue.length !== 0) {
+      if (term !== undefined) {
         const res = await fetch(
           `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&page=${pageNo}&api-key=${API_KEY}`
         );
@@ -59,9 +33,9 @@ export default function NewsListPage() {
         setArticles(articles.concat(...articlesResponse.response.docs));
         
       }
-    // };
+    };
     fetchArticles();
-  }, [pageNo]);
+  }, [term,pageNo]);
 
   useEffect(() => {
     if(articles.length !== 0){
@@ -72,45 +46,37 @@ export default function NewsListPage() {
 
   const [clipdata,setClipdata] = useState()
   
-  // const toggleActive = (e) => {
-  //   setBtnActive(e.target.id) 
-  //   setClickNum(prev => prev +1)
+  const toggleActive = (e) => {
+    setBtnActive(e.target.id) 
+    setClickNum(prev => prev +1)
 
-  //   articles.map((article) =>
-  //     article._id === e.target.id ? setClipdata(article) : null
+    articles.map((article) =>
+      article._id === e.target.id ? setClipdata(article) : null
 
-  //   );
+    );
 
-  // };
+  };
 
-  // useEffect(() => {
-  //   if(btnActive !== null){
-  //     let current = document.getElementById(btnActive);
-  //     current.classList.toggle('clipon');
-  //   }
-  // })
+  useEffect(() => {
+    if(btnActive !== null){
+      let current = document.getElementById(btnActive);
+      current.classList.toggle('clipon');
+    }
+  })
 
-//   useEffect(() => {
-//     if(ParsingClip !== null && articles.length !== 0 ){
-//       let clipOne = ParsingClip.map(clipId => clipId.id);
-//       let clipButtonList = clipOne.map(clipOneID => document.getElementById(clipOneID));
-//       clipButtonList.map(mapid => mapid.classList.add('clipon'))
+  useEffect(() => {
+    if(ParsingClip !== null && articles.length !== 0 ){
+      let clipOne = ParsingClip.map(clipId => clipId.id);
+      let clipButtonList = clipOne.map(clipOneID => document.getElementById(clipOneID));
+      clipButtonList.map(mapid => mapid.classList.add('clipon'))
 
-//     }
+    }
 
-// })
-    //redux store 가져와줌
-    let clipList = useSelector((state) => state.clipList );
-    console.log(clipList);
-    let dispatch = useDispatch();
-  // dispatch(changeid())
-    localStorage.setItem('clip', JSON.stringify(clipList));
-    let 꺼낸거 = localStorage.getItem('clip');
-    console.log(꺼낸거);
+})
 
   return (
     <>
-      {/* <SearchPage setTerm={setTerm} setArticles={setArticles} /> */}
+      <SearchPage setTerm={setTerm} />
       <NewsWrap>
         <ClipPage clipdata={clipdata}/>
         {articles.map((article) => {
@@ -137,14 +103,7 @@ export default function NewsListPage() {
                 <p>{sliceByline}</p>
                 <span>{pub_date}</span>
               </NewsInfo>
-              
-              {
-                clipList.map((item) => item.id).indexOf(_id) !== -1?
-                <ClipBtn onClick={()=> dispatch(removeId(_id))} className="clipon" id={_id} />
-                :
-                <ClipBtn onClick={()=> dispatch(addId({id: _id, title: main, url: web_url, byline: sliceByline, date: pub_date}))} id={_id} />
-              }
-              
+              <ClipBtn onClick={toggleActive} id={_id} />
               <div ref={ref}></div>
             </NewsList>
           );

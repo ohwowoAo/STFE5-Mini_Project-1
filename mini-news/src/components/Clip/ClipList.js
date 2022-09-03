@@ -3,22 +3,27 @@ import ClipPage from './ClipPage'
 import Styled, { css } from "styled-components";
 import bookmark_before from "../../img/bookmark_before.png";
 import bookmark_after from "../../img/bookmark_after.png";
+import { useDispatch, useSelector } from "react-redux";
+import { removeId } from "../../store";
 
 export default function ClipList() {
 
-  let ParsingClip;
-  const render = () =>{
-      const value = window.localStorage.getItem('clipHistory')
-      ParsingClip = JSON.parse(value)
+  // let ParsingClip;
+  // const render = () =>{
+  //     const value = window.localStorage.getItem('clipHistory')
+  //     ParsingClip = JSON.parse(value)
 
-  }
-  render();
+  // }
+  // render();
+    let clipList = useSelector((state) => state.clipList );
+    // console.log(clipList)
+    let dispatch = useDispatch();
 
     return (
       <>
       <ClipPage props={true} />
         <div>
-          {ParsingClip.map((item)=>{
+          {clipList&&clipList.map((item)=>{
                       const {title,date:pub_date,id,byline,url,} = item;
                       let sliceByline;
           if (typeof byline === "string") {
@@ -39,7 +44,8 @@ export default function ClipList() {
                   <p>{sliceByline}</p>
                   <span>{date}</span>
                 </NewsInfo>
-                <ClipBtn className='clipon' id={id} />
+                {/* <ClipBtn className='clipon' id={id} /> */}
+                <ClipBtn onClick={()=> dispatch(removeId(id))} className="clipon" id={id} />
               </NewsList>
             )}
           )}

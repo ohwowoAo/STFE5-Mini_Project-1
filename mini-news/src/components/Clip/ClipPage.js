@@ -18,32 +18,32 @@ export default function ClipPage({props, clipdata}) {
 
   }
 
-  const cilpEdit = (item) =>{
+  // const cilpEdit = (item) =>{
 
-    const {_id, web_url, headline:{main}, pub_date, byline:{original}} = item
+  //   const {_id, web_url, headline:{main}, pub_date, byline:{original}} = item
      
-    const newClipdata = {
-     title:main,
-     date:pub_date,
-     url:web_url,
-     byline:original,
-     id:_id
-    }
+  //   const newClipdata = {
+  //    title:main,
+  //    date:pub_date,
+  //    url:web_url,
+  //    byline:original,
+  //    id:_id
+  //   }
  
  
-    let localStorageArr = localStorage.getItem('clipHistory')
-     localStorageArr===null? localStorageArr=[] : localStorageArr= JSON.parse(localStorageArr); 
-     localStorageArr.push(newClipdata);
-     localStorage.setItem('clipHistory', JSON.stringify(localStorageArr))
+  //   let localStorageArr = localStorage.getItem('clipHistory')
+  //    localStorageArr===null? localStorageArr=[] : localStorageArr= JSON.parse(localStorageArr); 
+  //    localStorageArr.push(newClipdata);
+  //    localStorage.setItem('clipHistory', JSON.stringify(localStorageArr))
     
-   }
+  //  }
 
   return (
     <>
       <Clip>
         {makeLink(props)}
       </Clip>
-      {clipdata && cilpEdit(clipdata)}
+      {/* {clipdata && cilpEdit(clipdata)} */}
     </>
   )
 }

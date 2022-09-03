@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import SearchHistory from "./SearchHistory";
 import styled from "styled-components";
 import search_b from "../../img/search_b.png";
-import { useDispatch, useSelector } from "react-redux";
-import { searchInput } from "../../store";
-
 
 //검색 기능 구현 해주시면 될것같습니다. API 접근하여 기사를 받아온후
 //props를 이용하여 NewsList 밑 ClipPage에 전달해주기
 
-export default function SearchPage() {
+export default function SearchPage({setTerm}) {
   const [hide, setHide] = useState(0);
   const [text, setText] = useState([]);
-  let dispatch = useDispatch();
-  const [value, setValue] = useState("");
+
+  
   
   const SetHistoryValue = () => {
     return text.map((item, index) => {
@@ -43,44 +40,21 @@ export default function SearchPage() {
       localStorage.setItem('searchHistory', JSON.stringify(localStorageArr))
     }
   }
-  // const InputTextVal = (e) => {
-  //   let time;
-  //   clearTimeout(time);
-  //   time = setTimeout(() => {
-  //     SetLocalStorage(e.target.value)
-  //     if (e.target.value) {
-  //       text.unshift(e.target.value);
-  //       setText((text)=>[...text]);
-  //       // setTerm(e.target.value);
-  //       // let sipal = e.target.value
-  //       // dispatch(searchInput(String(sipal)))
-  //       setValue(e.target.value.trim());
-  //     }
-  //   }, 500);
-  //   (e.target.value !== "" ? setHide(1) : setHide(0)) //최근검색어 Hide&UnHide 
+  const InputTextVal = (e) => {
+    let time;
+    clearTimeout(time);
+    time = setTimeout(() => {
+      SetLocalStorage(e.target.value)
+      if (e.target.value) {
+        text.unshift(e.target.value);
+        setText((text)=>[...text]);
+        setTerm(e.target.value);
+      }
+    }, 500);
+    (e.target.value !== "" ? setHide(1) : setHide(0)) //최근검색어 Hide&UnHide 
     
 
-  // };
-  const [timer, setTimer] = useState(null);
-  //---------
-  const InputTextVal = (e) => {
-    if (timer) {
-      clearTimeout(timer);
-      setTimer(null);
-    }
-    setTimer(
-      setTimeout(() => {
-        setValue(e.target.value.trim());
-      }, 500)
-    );
   };
-
-  useEffect(() => {
-    if (value !== "") {
-      dispatch(searchInput({ inputValue: value }));
-    }
-  }, [value]);
-
   useEffect(()=>{
     if(localStorage.getItem('searchHistory')!==null){
       setText(JSON.parse(localStorage.getItem('searchHistory')))

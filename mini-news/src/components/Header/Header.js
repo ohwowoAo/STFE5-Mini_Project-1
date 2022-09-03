@@ -3,15 +3,20 @@ import styled from "styled-components";
 import {Link} from 'react-router-dom'
 import LogoImg from "../../img/logo.png"
 import Lightbtn from "../../img/light.png"
+import SearchPage from "../Search/SearchPage";
 
 
 //단순 네비게이션바 구현 프로토타입은 팀레포 Wiki 참조
 export default function Header() {
   return (
+    <>
       <WrapHeader>
         <div><Link to="/"><WrapLogo/></Link></div>
         <div><WrapLightBtn/></div>
+       
       </WrapHeader>
+      <SearchPage />
+    </>
   );
 }
 
