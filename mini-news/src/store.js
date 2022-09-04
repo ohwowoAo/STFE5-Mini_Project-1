@@ -37,6 +37,6 @@ export let {addId, removeId} = clipList.actions
 export default configureStore({
 reducer: { 
   clipList : clipList.reducer,
-  searchValue : searchValue.reducer
+  // searchValue : searchValue.reducer
 }
 })
